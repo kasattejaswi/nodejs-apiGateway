@@ -1,0 +1,11 @@
+[
+    {
+        "serviceName": "SERVICE_USER_AUTH_PORT",
+        "contextRoot": "/auth",
+        "backendHostname": "127.0.0.1",
+        "port": "11802",
+        "routeRule": "SERVICE_USER_AUTH_ROUTES",
+        "servicePingEndpoint":"/ping",
+        "pingFrequency": 300000
+    }
+]

@@ -1,0 +1,68 @@
+[
+    {
+        "routeName": "/create",
+        "method": "POST",
+        "needsAuth": false,
+        "type": "public"
+    },
+    {
+        "routeName": "/login",
+        "method": "POST",
+        "needsAuth": false,
+        "type": "public"
+    },
+    {
+        "routeName": "/updateuser",
+        "method": "PATCH",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/logout",
+        "method": "POST",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/logoutall",
+        "method": "POST",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/username",
+        "method": "POST",
+        "needsAuth": false,
+        "type": "public"
+    },
+    {
+        "routeName": "/me",
+        "method": "GET",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName":"/me",
+        "method": "POST",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/me/avatar",
+        "method": "POST",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/users/:id/avatar",
+        "method": "GET",
+        "needsAuth": true,
+        "type": "public"
+    },
+    {
+        "routeName": "/verify",
+        "method": "GET",
+        "needsAuth": true,
+        "type": "private"
+    }
+]
