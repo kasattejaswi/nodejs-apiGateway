@@ -24,6 +24,7 @@
     "express-pino-logger": "^5.0.0",
     "helmet": "^4.1.1",
     "jest": "^26.4.2",
+    "node-fetch": "^2.6.1",
     "pino": "^6.6.1",
     "pino-pretty": "^4.2.1",
     "validator": "^13.1.17"

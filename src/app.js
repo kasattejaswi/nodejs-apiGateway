@@ -3,15 +3,9 @@ require('dotenv').config()
 require('dotenv').config({
     path: process.env.CENTRAL_ENV
 })
+const router = require('./router/router')
 const app = express()
-
-app.all('/*', (req, res) => {
-    console.log(req.url)
-    console.log(req.method)
-    console.log(req.path)
-    console.log(req.query)
-    console.log(req.body)
-    res.send({success: 'Gateway is running normally'})
-})
+app.use(express.json())
+app.use(router)
 
 module.exports = app

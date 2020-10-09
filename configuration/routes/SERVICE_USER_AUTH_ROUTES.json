@@ -56,7 +56,7 @@
     {
         "routeName": "/users/:id/avatar",
         "method": "GET",
-        "needsAuth": true,
+        "needsAuth": false,
         "type": "public"
     },
     {

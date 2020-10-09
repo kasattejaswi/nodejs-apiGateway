@@ -1,6 +1,6 @@
 [
     {
-        "serviceName": "SERVICE_USER_AUTH_PORT",
+        "serviceName": "SERVICE_USER_AUTH",
         "contextRoot": "/auth",
         "backendHostname": "127.0.0.1",
         "port": "11802",
