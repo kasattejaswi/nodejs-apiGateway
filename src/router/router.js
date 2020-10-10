@@ -4,26 +4,25 @@ const fetch = require('node-fetch')
 const validRequest = require('../middleware/validRequest')
 const auth = require('../middleware/auth')
 
-router.all("/*", [validRequest, auth], (req, res) => {
+router.all("/*", [validRequest, auth], async (req, res) => {
     console.log(req.destinationPath)
     console.log(req.destinationHeaders)
     console.log(req.destinationBody)
     console.log(req.destinationMethod)
     const url = `http://${req.destinationService.hostname}:${req.destinationService.port}${req.destinationPath}`
-    let responseStatus
-    let responseHeaders
-    fetch(url, {
+    let forwardingOptions = {
         method: req.destinationMethod.toLowerCase(),
-        headers: req.destinationHeaders,
-        body: JSON.stringify(req.destinationBody)
-    }).then((resp) => {
-        responseStatus = resp.status
-        responseHeaders = resp.headers
-        // return resp
-        return resp.json()
-    }).then((json) => {
-        res.status(responseStatus).send(json)
-    })
-});
-
-module.exports = router;
+        headers: req.destinationHeaders
+    }
+    if(Object.keys(req.destinationBody).length > 0) {
+        console.log('condition true')
+        forwardingOptions['body'] = JSON.stringify(req.destinationBody)
+    }
+    console.log(req.destinationBody)
+    console.log(forwardingOptions)
+    const response = await fetch(url, forwardingOptions)
+    // console.log(response.type())
+    const json = await response.json()
+    res.status(response.status).send(json)
+})
+module.exports = router

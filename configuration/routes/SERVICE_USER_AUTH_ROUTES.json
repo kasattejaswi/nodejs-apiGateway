@@ -64,5 +64,17 @@
         "method": "GET",
         "needsAuth": true,
         "type": "private"
+    },
+    {
+        "routeName": "/ping",
+        "method": "GET",
+        "needsAuth": false,
+        "type": "public"
+    },
+    {
+        "routeName": "/me",
+        "method": "DELETE",
+        "needsAuth": true,
+        "type": "public"
     }
 ]
