@@ -15,12 +15,12 @@ router.all("/*", [validRequest, auth], (req, res) => {
     fetch(url, {
         method: req.destinationMethod.toLowerCase(),
         headers: req.destinationHeaders,
-        body: req.destinationBody
+        body: JSON.stringify(req.destinationBody)
     }).then((resp) => {
         responseStatus = resp.status
         responseHeaders = resp.headers
         // return resp
-        return resp.text()
+        return resp.json()
     }).then((json) => {
         res.status(responseStatus).send(json)
     })
