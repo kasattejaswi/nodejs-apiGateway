@@ -12,19 +12,25 @@ const auth =  async (req, res, next) => {
         header = header.toLowerCase()
         headers[header] = req.headers[header]
     }
-    const response = await fetch(url,{
-        method: authDefinition.method.toLowerCase(),
-        headers
-    })
-    if(response.status === 200) {
-        next()
+    try {
+        const response = await fetch(url,{
+            method: authDefinition.method.toLowerCase(),
+            headers
+        })
+        if(response.status === 200) {
+            next()
+        }
+        else {
+            const json = await response.json()
+            res.status(response.status).send(json)
+        }
     }
-    else {
-        console.log(response.status)
-        const json = await response.json()
-        console.log(json)
-        res.status(response.status).send(json)
+    catch {
+        res.status(504).send({
+            error: 'Unable to complete the request'
+        })
     }
+    
     
 }
 

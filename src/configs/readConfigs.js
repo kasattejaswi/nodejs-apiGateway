@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 class ReadConfigs {
-    constructor(configs) {
+    constructor() {
         const serviceFile = JSON.parse(fs.readFileSync(__dirname+"/../../configuration/services/service.json"))
         const serviceData = []
         for(let i of serviceFile) {
@@ -57,6 +57,25 @@ class ReadConfigs {
             port,
             requiresAuth
         }
+    }
+
+    getAllServicesPingEndpoints() {
+        let endpoints = []
+        this.configs.forEach((config) => {
+            const serviceName = config.serviceName
+            const backendHostname = config.backendHostname
+            const port = config.port
+            const pingEndpoint = config.servicePingEndpoint
+            const pingFrequency = config.pingFrequency
+            endpoints.push({
+                serviceName,
+                backendHostname,
+                port,
+                pingEndpoint,
+                pingFrequency
+            })
+        })
+        return endpoints
     }
 }
 

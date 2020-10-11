@@ -69,7 +69,7 @@
         "routeName": "/ping",
         "method": "GET",
         "needsAuth": false,
-        "type": "public"
+        "type": "private"
     },
     {
         "routeName": "/me",

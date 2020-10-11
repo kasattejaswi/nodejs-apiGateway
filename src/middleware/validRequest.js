@@ -1,6 +1,6 @@
 const readConfigs = require("../configs/readConfigs");
 const ReadConfigs = new readConfigs();
-
+ReadConfigs.getAllServicesPingEndpoints()
 const validateRequest = (req, res, next) => {
     const url = req.path;
     const method = req.method;
@@ -17,6 +17,7 @@ const validateRequest = (req, res, next) => {
     req.destinationMethod = method
     req.destinationHeaders = req.headers
     req.destinationBody = req.body
+    req.contextRoot = contextRoot
     next()
 }
 
