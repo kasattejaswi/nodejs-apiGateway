@@ -1,7 +1,8 @@
-const readConfigs = require('../configs/readConfigs')
-const fs = require('fs')
 const fetch = require('node-fetch')
+const readConfigs = require('../configs/readConfigs')
+const healthUpdates = require('../configs/healthUpdates')
 const ReadConfigs = new readConfigs()
+const HealthUpdate = new healthUpdates()
 const serviceEndpoints = ReadConfigs.getAllServicesPingEndpoints()
 
 serviceEndpoints.forEach((endpoint) => {
@@ -9,13 +10,14 @@ serviceEndpoints.forEach((endpoint) => {
         try{
             const response = await fetch(`http://${endpoint.backendHostname}:${endpoint.port}${endpoint.pingEndpoint}`)
             if(response.status === 200 ) {
-                console.log(`${endpoint.serviceName}: ONLINE`)
+                const date = new Date()
+                HealthUpdate.updateStatus(endpoint.serviceName, 'ONLINE', new Date().toUTCString())
             } else {
-                console.log(`${endpoint.serviceName}: UNKNOWN`)
+                HealthUpdate.updateStatus(endpoint.serviceName, 'UNKNOWN', new Date().toUTCString())
             }
         }
         catch {
-            console.log(`${endpoint.serviceName}: OFFLINE`)
+            HealthUpdate.updateStatus(endpoint.serviceName, 'OFFLINE', new Date().toUTCString())
         }
         
 

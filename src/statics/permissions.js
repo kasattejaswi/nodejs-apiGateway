@@ -1,0 +1,48 @@
+const permissions = {}
+
+permissions.admin = [
+    "READ_USERS",
+    "CREATE_USERS",
+    "UPDATE_USERS",
+    "DELETE_USERS",
+    "CHANGE_USER_ROLES",
+    "READ_SERVICES",
+    "CREATE_SERVICES",
+    "UPDATE_SERVICES",
+    "DELETE_SERVICES",
+    "READ_ROUTES",
+    "CREATE_ROUTES",
+    "UPDATE_ROUTES",
+    "DELETE_ROUTES",
+    "READ_DEFINITIONS",
+    "UPDATE_DEFINITIONS",
+    "DELETE_DEFINITIONS",
+    "READ_SERVICE_STATUS",
+    "APPROVE_MODIFICATIONS",
+    "REJECT_MODIFICATIONS",
+    "AUTO_APPROVE"
+]
+
+permissions.contributor = [
+    "READ_SERVICES",
+    "CREATE_SERVICES",
+    "UPDATE_SERVICES",
+    "DELETE_SERVICES",
+    "READ_ROUTES",
+    "CREATE_ROUTES",
+    "UPDATE_ROUTES",
+    "DELETE_ROUTES",
+    "READ_DEFINITIONS",
+    "UPDATE_DEFINITIONS",
+    "DELETE_DEFINITIONS",
+    "READ_SERVICE_STATUS"
+]
+
+permissions.reader = [
+    "READ_SERVICES",
+    "READ_ROUTES",
+    "READ_DEFINITIONS",
+    "READ_SERVICE_STATUS"
+]
+
+module.exports = permissions
