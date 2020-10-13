@@ -1,4 +1,4 @@
-<img src="logo/logo.png" width="200">
+<img src="logo/logo.png" width="500">
 
 # tbots | API Gateway
 This project is under development and will be available soon for open contribution and use.
