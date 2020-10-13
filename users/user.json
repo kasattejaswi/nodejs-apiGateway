@@ -1,9 +1,32 @@
 [
     {
-        "username": "6ej92fhei3",
-        "password": "92j3j90d*k20r48%rj@4jren339ue$t9",
-        "tokens": [],
+        "username": "kasattejaswi",
+        "password": "$2b$08$v2LsxGq06oQesPr2taL.qOiGz1gTORtPP4WfCsLmdHdQfEPgqXr2.",
+        "role": "admin",
         "permissions": [
+            "READ_USERS",
+            "CREATE_USERS",
+            "UPDATE_USERS",
+            "DELETE_USERS",
+            "CHANGE_USER_ROLES",
+            "READ_SERVICES",
+            "CREATE_SERVICES",
+            "UPDATE_SERVICES",
+            "DELETE_SERVICES",
+            "READ_ROUTES",
+            "CREATE_ROUTES",
+            "UPDATE_ROUTES",
+            "DELETE_ROUTES",
+            "READ_DEFINITIONS",
+            "UPDATE_DEFINITIONS",
+            "DELETE_DEFINITIONS",
+            "READ_SERVICE_STATUS",
+            "APPROVE_MODIFICATIONS",
+            "REJECT_MODIFICATIONS",
+            "AUTO_APPROVE"
+        ],
+        "tokens": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthc2F0dGVqYXN3aSIsInBlcm1pc3Npb25zIjpbIlJFQURfVVNFUlMiLCJDUkVBVEVfVVNFUlMiLCJVUERBVEVfVVNFUlMiLCJERUxFVEVfVVNFUlMiLCJDSEFOR0VfVVNFUl9ST0xFUyIsIlJFQURfU0VSVklDRVMiLCJDUkVBVEVfU0VSVklDRVMiLCJVUERBVEVfU0VSVklDRVMiLCJERUxFVEVfU0VSVklDRVMiLCJSRUFEX1JPVVRFUyIsIkNSRUFURV9ST1VURVMiLCJVUERBVEVfUk9VVEVTIiwiREVMRVRFX1JPVVRFUyIsIlJFQURfREVGSU5JVElPTlMiLCJVUERBVEVfREVGSU5JVElPTlMiLCJERUxFVEVfREVGSU5JVElPTlMiLCJSRUFEX1NFUlZJQ0VfU1RBVFVTIiwiQVBQUk9WRV9NT0RJRklDQVRJT05TIiwiUkVKRUNUX01PRElGSUNBVElPTlMiLCJBVVRPX0FQUFJPVkUiXSwiaWF0IjoxNjAyNTE1NDY4fQ.SHOP3xZD6sz6y8aBPzF7f7L0t0mYVNUDNHFQ7ntaiFs"
         ]
     }
 ]
