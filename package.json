@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
@@ -27,6 +28,7 @@
     "http-proxy": "^1.0.5",
     "jest": "^26.4.2",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.11",
     "node-fetch": "^2.6.1",
     "pino": "^6.6.1",
     "pino-pretty": "^4.2.1",

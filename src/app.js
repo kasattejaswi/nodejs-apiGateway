@@ -1,9 +1,11 @@
 const express = require('express')
+const cors = require('cors')
 require('dotenv').config()
 require('dotenv').config({
     path: process.env.CENTRAL_ENV
 })
 require('./health/serviceHealthChecker')
+require('./database/connection')
 const gatewayRouter = require('./router/gateway')
 const router = require('./router/router')
 const app = express()
@@ -15,6 +17,7 @@ if(process.env.MAINTENANCE_MODE === 'true') {
     })
 }
 app.use(express.json())
+app.use(cors())
 app.use(gatewayRouter)
 app.use(router)
 
