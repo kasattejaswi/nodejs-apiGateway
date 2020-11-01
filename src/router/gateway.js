@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/user')
 const permissions = require('../statics/permissions')
 const gatewayAuth = require('../middleware/gatewayAuth')
+const { request } = require('http')
 // Endpoints needed
 // Login to gateway - done
 // GET all services
@@ -16,6 +17,7 @@ const checkValidRequest = (receivedKeys, allowedKeys) => {
     return receivedKeys.every(key => allowedKeys.includes(key))
 }
 
+// Login user
 router.post('/gateway/login', async (req, res) => {
     const isValidRequest = checkValidRequest(Object.keys(req.body), ['username', 'password'])
     if(!isValidRequest) {
@@ -43,6 +45,7 @@ router.post('/gateway/login', async (req, res) => {
     
 })
 
+// Create new user
 router.post('/gateway/user',gatewayAuth, async (req, res) => {
     if(!req.user.permissions.includes('CREATE_USERS')) {
         return res.status(403).send({
@@ -80,6 +83,7 @@ router.post('/gateway/user',gatewayAuth, async (req, res) => {
     }
 })
 
+// Update self
 router.patch('/gateway/user', gatewayAuth, async(req,res) => {
     const isValidRequest = checkValidRequest(Object.keys(req.body), ['username', 'fullname'])
     if(!isValidRequest) {
@@ -103,6 +107,7 @@ router.patch('/gateway/user', gatewayAuth, async(req,res) => {
     }
 })
 
+// Check if username is unique or not
 router.get('/gateway/usernameUnique', gatewayAuth, async(req, res) => {
     if(!req.body.username) {
         return res.status(400).send({success: false, error: 'Pass a username'})
@@ -124,6 +129,7 @@ router.get('/gateway/usernameUnique', gatewayAuth, async(req, res) => {
     
 })
 
+// Set first time password of newly created account
 router.post('/gateway/setftp',gatewayAuth, async(req, res) => {
     const isValidRequest = checkValidRequest(Object.keys(req.body), ['password'])
     if(!isValidRequest || !req.body.password) {
@@ -155,6 +161,7 @@ router.post('/gateway/setftp',gatewayAuth, async(req, res) => {
     }
 })
 
+// Logout user
 router.get('/gateway/logout',gatewayAuth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
@@ -173,6 +180,7 @@ router.get('/gateway/logout',gatewayAuth, async (req, res) => {
     
 })
 
+// Logout from all sessions
 router.get('/gateway/logoutAll', gatewayAuth, async(req, res) => {
     try {
         req.user.tokens = []
@@ -181,6 +189,91 @@ router.get('/gateway/logoutAll', gatewayAuth, async(req, res) => {
             success: true,
             message: 'Logged out from all sessions successfully'
         })
+    } catch(e) {
+        res.status(500).send({
+            success: false,
+            error: 'Some internal error occurred',
+          });
+    }
+})
+
+// Get list of all users
+router.get('/gateway/users', gatewayAuth, async(req, res) => {
+    
+    if(!req.user.permissions.includes('READ_USERS')) {
+        return res.status(403).send({
+            success: false,
+            error: 'Operation not permitted'
+        })
+    }
+    try {
+        const users = await User.find({})
+        res.send({
+            success: true,
+            users
+        })
+    }
+    catch(e) {
+        res.status(500).send({
+            success: false,
+            error: 'Some internal error occurred',
+          });
+    }
+    
+})
+
+// Update a particular user
+router.patch('/gateway/users/:id', gatewayAuth, async(req, res) => {
+    if(!req.user.permissions.includes('UPDATE_USERS')) {
+        return res.status(403).send({
+            success: false,
+            error: 'Operation not permitted'
+        })
+    }
+    try {
+        const isValidRequest = checkValidRequest(Object.keys(req.body), ['username','fullname','permissions', 'role'])
+        if(!isValidRequest) {
+            return res.status(400).send({
+                success: false,
+                error: 'BAD REQUEST!! Some passed parameters are either empty or invalid'
+            })
+        }
+        const userid = req.params.id
+        console.log(userid)
+        let user = await User.findById(userid)
+        Object.keys(req.body).forEach((key) => user[key] = req.body[key]);
+        await user.save()
+        res.send({
+            success: true,
+            message: 'User updated successfully'
+        })
+    } catch(e) {
+        res.status(500).send({
+            success: false,
+            error: 'Some internal error occurred',
+          });
+    }
+})
+
+// Reset password of a user
+router.get('gateway/users/resetp/:id', gatewayAuth, async(req, res) => {
+    if(!req.user.permissions.includes('UPDATE_USERS')) {
+        return res.status(403).send({
+            success: false,
+            error: 'Operation not permitted'
+        })
+    }
+    try {
+        const userid = req.params.id
+        console.log(userid)
+        let user = await User.findById(userid)
+        user.passwordResetRequired = true
+        await user.save()
+        res.send({
+            success: true,
+            message: 'Request initiated. User will get prompt for password reset in next login'
+        })
+
     } catch(e) {
         res.status(500).send({
             success: false,
