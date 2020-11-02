@@ -57,4 +57,4 @@ const routesSchema = new mongoose.Schema({
 })
 
 const Routes = mongoose.model('Routes', routesSchema)
-module.exports = routesSchema
+module.exports = Routes

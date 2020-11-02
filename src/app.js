@@ -8,6 +8,7 @@ require('./health/serviceHealthChecker')
 require('./database/connection')
 const gatewayRouter = require('./router/gateway')
 const router = require('./router/router')
+const gatewayRouting = require('./router/routes')
 const app = express()
 if(process.env.MAINTENANCE_MODE === 'true') {
     app.use((req, res) => {
@@ -19,6 +20,7 @@ if(process.env.MAINTENANCE_MODE === 'true') {
 app.use(express.json())
 app.use(cors())
 app.use(gatewayRouter)
+app.use(gatewayRouting)
 app.use(router)
 
 module.exports = app
