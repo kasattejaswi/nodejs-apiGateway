@@ -8,6 +8,7 @@ require("./health/serviceHealthChecker");
 require("./database/connection");
 const gatewayRouter = require("./router/gateway");
 const router = require("./router/router");
+const routesRouter = require("./router/routes");
 const serviceRouter = require("./router/services");
 const app = express();
 if (process.env.MAINTENANCE_MODE === "true") {
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(cors());
 app.use(gatewayRouter);
 app.use(serviceRouter);
+app.use(routesRouter);
 app.use(router);
 
 module.exports = app;
