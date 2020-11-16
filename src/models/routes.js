@@ -1,60 +1,61 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
+const mongoose = require("mongoose");
+const validator = require("validator");
 
 const routesSchema = new mongoose.Schema({
     serviceName: {
-        type: 'String',
+        type: "String",
         required: true,
-        unique: true
+        unique: true,
     },
     contextRoot: {
-        type:'String',
+        type: "String",
         required: true,
-        unique: true
+        unique: true,
     },
     backendHostname: {
-        type: 'String',
-        required: true
+        type: "String",
+        required: true,
     },
     port: {
-        type: 'String',
-        required: true
+        type: "String",
+        required: true,
     },
     servicePingEndpoint: {
-        type: 'String',
-        required: true
+        type: "String",
+        required: true,
     },
     pingFrequency: {
-        type: 'String',
-        required: true
+        type: "String",
+        required: true,
     },
     routes: [
         {
             routePath: {
-                type: 'String',
+                type: "String",
                 required: true,
-                unique: true
             },
             method: {
-                type: 'String',
-                required: true
+                type: "String",
+                required: true,
             },
             needsAuth: {
-                type: 'Boolean',
-                required: true
+                type: "Boolean",
+                required: true,
             },
             privacy: {
-                type: 'String',
+                type: "String",
                 required: true,
                 validate(privacy) {
-                    if(!['public', 'private'].includes(privacy)) {
-                        throw new Error('Only public and private are allowed in privacy')
+                    if (!["public", "private"].includes(privacy)) {
+                        throw new Error(
+                            "Only public and private are allowed in privacy"
+                        );
                     }
-                }
-            }
-        }
-    ]
-})
+                },
+            },
+        },
+    ],
+});
 
-const Routes = mongoose.model('Routes', routesSchema)
-module.exports = Routes
+const Routes = mongoose.model("Routes", routesSchema);
+module.exports = Routes;
