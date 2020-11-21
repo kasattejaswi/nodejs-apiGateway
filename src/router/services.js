@@ -1,7 +1,8 @@
 const express = require("express");
 const gatewayAuth = require("../middleware/gatewayAuth");
-const router = express.Router();
 const Routes = require("../models/routes");
+const router = express.Router();
+const Services = require("../models/services");
 
 //  List of all routes
 // Get routes of all services
@@ -32,6 +33,7 @@ router.post("/gateway/service", gatewayAuth, async (req, res) => {
         "port",
         "servicePingEndpoint",
         "pingFrequency",
+        "protocol",
     ]);
     if (!isValidRequest) {
         return res.status(400).send({
@@ -40,17 +42,16 @@ router.post("/gateway/service", gatewayAuth, async (req, res) => {
                 "BAD REQUEST!! Some passed parameters are either empty or invalid",
         });
     }
-    const routes = new Routes({
+    const services = new Services({
         serviceName: req.body.serviceName,
         contextRoot: req.body.contextRoot,
         backendHostname: req.body.backendHostname,
         port: req.body.port,
         servicePingEndpoint: req.body.servicePingEndpoint,
         pingFrequency: req.body.pingFrequency,
-        routes: [],
     });
     try {
-        await routes.save();
+        await services.save();
         res.status(201).send({
             success: true,
             message: "New service has been created",
@@ -71,10 +72,10 @@ router.get("/gateway/services", gatewayAuth, async (req, res) => {
         });
     }
     try {
-        const servicesWithRoutes = await Routes.find({});
+        const services = await Services.find({});
         res.send({
             success: true,
-            services: servicesWithRoutes,
+            services,
         });
     } catch (e) {
         res.status(500).send({
@@ -93,7 +94,7 @@ router.get("/gateway/service/:id", gatewayAuth, async (req, res) => {
     }
     try {
         const serviceId = req.params.id;
-        const service = await Routes.findById(serviceId);
+        const service = await Services.findById(serviceId);
         console.log(service);
         if (!service) {
             return res.status(404).send({
@@ -127,6 +128,7 @@ router.patch("/gateway/service/:id", gatewayAuth, async (req, res) => {
         "port",
         "servicePingEndpoint",
         "pingFrequency",
+        "protocol",
     ]);
     if (!isValidRequest) {
         return res.status(400).send({
@@ -135,27 +137,28 @@ router.patch("/gateway/service/:id", gatewayAuth, async (req, res) => {
                 "BAD REQUEST!! Some passed parameters are either empty or invalid",
         });
     }
-    try {
-        const serviceId = req.params.id;
-        const service = await Routes.findOne({ _id: serviceId });
-        if (!service) {
-            return res.status(404).send({
-                success: false,
-                error: "No service found for the provided id",
-            });
-        }
-        Object.keys(req.body).forEach((key) => (service[key] = req.body[key]));
-        await service.save();
-        res.send({
-            success: true,
-            message: "Service updated successfully",
-        });
-    } catch (e) {
-        res.status(400).send({
+    // try {
+    const serviceId = req.params.id;
+    const service = await Services.findOne({ _id: serviceId });
+    if (!service) {
+        return res.status(404).send({
             success: false,
-            error: "Invalid request!!",
+            error: "No service found for the provided id",
         });
     }
+    Object.keys(req.body).forEach((key) => (service[key] = req.body[key]));
+    await service.save();
+    res.send({
+        success: true,
+        message: "Service updated successfully",
+    });
+    // } catch (e) {
+    //     res.status(400).send({
+    //         success: false,
+    //         error: "Invalid request!!",
+    //         message: e,
+    //     });
+    // }
 });
 
 router.delete("/gateway/service/:id", gatewayAuth, async (req, res) => {
@@ -167,7 +170,7 @@ router.delete("/gateway/service/:id", gatewayAuth, async (req, res) => {
     }
     try {
         const serviceId = req.params.id;
-        const service = await Routes.findOne({ _id: serviceId });
+        const service = await Services.findOne({ _id: serviceId });
         if (!service) {
             return res.status(404).send({
                 success: false,
@@ -175,6 +178,7 @@ router.delete("/gateway/service/:id", gatewayAuth, async (req, res) => {
             });
         }
         await service.remove();
+        await Routes.deleteMany({ serviceId });
         res.send({
             success: true,
             message: "Service deleted successfully!",

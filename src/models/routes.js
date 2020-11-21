@@ -1,61 +1,35 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const routesSchema = new mongoose.Schema({
-    serviceName: {
-        type: "String",
-        required: true,
-        unique: true,
-    },
-    contextRoot: {
-        type: "String",
-        required: true,
-        unique: true,
-    },
-    backendHostname: {
+const routeSchema = new mongoose.Schema({
+    routePath: {
         type: "String",
         required: true,
     },
-    port: {
+    serviceId: {
         type: "String",
         required: true,
     },
-    servicePingEndpoint: {
+    method: {
         type: "String",
         required: true,
     },
-    pingFrequency: {
-        type: "String",
+    needsAuth: {
+        type: "Boolean",
         required: true,
     },
-    routes: [
-        {
-            routePath: {
-                type: "String",
-                required: true,
-            },
-            method: {
-                type: "String",
-                required: true,
-            },
-            needsAuth: {
-                type: "Boolean",
-                required: true,
-            },
-            privacy: {
-                type: "String",
-                required: true,
-                validate(privacy) {
-                    if (!["public", "private"].includes(privacy)) {
-                        throw new Error(
-                            "Only public and private are allowed in privacy"
-                        );
-                    }
-                },
-            },
+    privacy: {
+        type: "String",
+        required: true,
+        validate(privacy) {
+            if (!["public", "private"].includes(privacy)) {
+                throw new Error(
+                    "Only public and private are allowed in privacy"
+                );
+            }
         },
-    ],
+    },
 });
 
-const Routes = mongoose.model("Routes", routesSchema);
+const Routes = mongoose.model("Routes", routeSchema);
 module.exports = Routes;
