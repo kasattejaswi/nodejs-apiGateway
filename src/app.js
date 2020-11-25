@@ -4,7 +4,7 @@ require("dotenv").config();
 require("dotenv").config({
     path: process.env.CENTRAL_ENV,
 });
-require("./health/serviceHealthChecker");
+// require("./health/serviceHealthChecker");
 require("./database/connection");
 const gatewayRouter = require("./router/gateway");
 const router = require("./router/router");

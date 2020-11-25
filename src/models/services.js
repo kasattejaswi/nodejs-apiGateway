@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const healthChecks = require("../health/serviceHealthChecker");
+const HealthCheck = require("../health/HealthCheck");
 
+const healthChecks = new HealthCheck();
+healthChecks.startHealthCheck();
 const servicesSchema = new mongoose.Schema({
     serviceName: {
         type: "String",
